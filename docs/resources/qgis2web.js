@@ -4,12 +4,15 @@ var map = new ol.Map({
     renderer: 'canvas',
     layers: layersList,
     view: new ol.View({
-        extent: [133444.810674, 5840533.424066, 758130.316004, 6241714.070265], maxZoom: 28, minZoom: 1
+        extent: [205830.242652, 5795554.468686, 695440.495797, 6196735.114886], maxZoom: 28, minZoom: 1, projection: new ol.proj.Projection({
+            code: 'EPSG:3857',
+            //extent: [-20037508.342789, -20037508.342789, 20037508.342789, 20037508.342789],
+            units: 'm'})
     })
 });
 
 //initial view - epsg:3857 coordinates if not "Match project CRS"
-map.getView().fit([133444.810674, 5840533.424066, 758130.316004, 6241714.070265], map.getSize());
+map.getView().fit([205830.242652, 5795554.468686, 695440.495797, 6196735.114886], map.getSize());
 
 ////small screen definition
     var hasTouchScreen = map.getViewport().classList.contains('ol-touch');
@@ -113,7 +116,7 @@ var featureOverlay = new ol.layer.Vector({
 });
 
 var doHighlight = false;
-var doHover = true;
+var doHover = false;
 
 function createPopupField(currentFeature, currentFeatureKeys, layer) {
     var popupText = '';
@@ -174,7 +177,7 @@ function onPointerMove(evt) {
     var currentLayer;
     var currentFeatureKeys;
     var clusteredFeatures;
-    var clusterLenght;
+    var clusterLength;
     var popupText = '<ul>';
     map.forEachFeatureAtPixel(pixel, function(feature, layer) {
         if (layer && feature instanceof ol.Feature && (layer.get("interactive") || layer.get("interactive") == undefined)) {
@@ -188,7 +191,7 @@ function onPointerMove(evt) {
             currentLayer = layer;
             clusteredFeatures = feature.get("features");
             if (clusteredFeatures) {
-				clusterLenght = clusteredFeatures.length;
+				clusterLength = clusteredFeatures.length;
 			}
             var clusterFeature;
             if (typeof clusteredFeatures !== "undefined") {
@@ -239,7 +242,7 @@ function onPointerMove(evt) {
 					if (typeof clusteredFeatures == "undefined") {
 						radius = featureStyle.getImage().getRadius();
 					} else {
-						radius = parseFloat(featureStyle.split('radius')[1].split(' ')[1]) + clusterLenght;
+						radius = parseFloat(featureStyle.split('radius')[1].split(' ')[1]) + clusterLength;
 					}
 
                     highlightStyle = new ol.style.Style({
@@ -496,18 +499,20 @@ bottomAttribution.element.appendChild(attributionList);
 
 
 // Disable "popup on hover" or "highlight on hover" if ol-control mouseover
+var preDoHover = doHover;
+var preDoHighlight = doHighlight;
+var isPopupAllActive = false;
 document.addEventListener('DOMContentLoaded', function() {
-    var preDoHover = doHover;
-	var preDoHighlight = doHighlight;
 	if (doHover || doHighlight) {
 		var controlElements = document.getElementsByClassName('ol-control');
 		for (var i = 0; i < controlElements.length; i++) {
-			controlElements[i].addEventListener('mouseover', function() {
-				if (doHover) { doHover = false; }
-				if (doHighlight) { doHighlight = false; }
+			controlElements[i].addEventListener('mouseover', function() { 
+				doHover = false;
+				doHighlight = false;
 			});
 			controlElements[i].addEventListener('mouseout', function() {
 				doHover = preDoHover;
+				if (isPopupAllActive) { return }
 				doHighlight = preDoHighlight;
 			});
 		}

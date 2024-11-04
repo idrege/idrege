@@ -53,13 +53,14 @@
             </div>
         </div>
         <script src="resources/qgis2web_expressions.js"></script>
-        <script src="resources/polyfills.js"></script>
+<script src="resources/proj4.js"></script>
+        <script>proj4.defs('EPSG:3857','+proj=merc +a=6378137 +b=6378137 +lat_ts=0 +lon_0=0 +x_0=0 +y_0=0 +k=1 +units=m +nadgrids=@null +wktext +no_defs');</script>
         <script src="./resources/functions.js"></script>
         <script src="./resources/ol.js"></script>
         <script src="./resources/ol-layerswitcher.js"></script>
         <script src="resources/ol-geocoder.js"></script>
-        <script src="layers/France_1.js"></script><script src="layers/SaneetLoire_2.js"></script><script src="layers/Nivre_3.js"></script><script src="layers/CtedOr_4.js"></script><script src="layers/Yonne_5.js"></script><script src="layers/AcadmiedeDijon_6.js"></script><script src="layers/UPE2Acollge_7.js"></script><script src="layers/UPE2Alyce_8.js"></script>
-        <script src="styles/France_1_style.js"></script><script src="styles/SaneetLoire_2_style.js"></script><script src="styles/Nivre_3_style.js"></script><script src="styles/CtedOr_4_style.js"></script><script src="styles/Yonne_5_style.js"></script><script src="styles/AcadmiedeDijon_6_style.js"></script><script src="styles/UPE2Acollge_7_style.js"></script><script src="styles/UPE2Alyce_8_style.js"></script>
+        <script src="layers/SaneetLoire_1.js"></script><script src="layers/Nivre_2.js"></script><script src="layers/CtedOr_3.js"></script><script src="layers/Yonne_4.js"></script><script src="layers/UPE2Alyce_5.js"></script><script src="layers/UPE2Acollge_6.js"></script>
+        <script src="styles/SaneetLoire_1_style.js"></script><script src="styles/Nivre_2_style.js"></script><script src="styles/CtedOr_3_style.js"></script><script src="styles/Yonne_4_style.js"></script><script src="styles/UPE2Alyce_5_style.js"></script><script src="styles/UPE2Acollge_6_style.js"></script>
         <script src="./layers/layers.js" type="text/javascript"></script> 
         <script src="./resources/Autolinker.min.js"></script>
         <script src="./resources/qgis2web.js"></script>
